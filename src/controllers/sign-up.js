@@ -21,7 +21,6 @@ async function signUp(req, res) {
 		if (duplicateEmailCheck.rows.length !== 0 || duplicateCpfCheck.rows.length !== 0)
 			return res.sendStatus(409);
 		const passwordHash = bcrypt.hashSync(password, 10);
-		console.log(passwordHash);
 
 		await connection.query(
 			`INSERT INTO users (name,email,address,cpf,password)
@@ -31,7 +30,6 @@ async function signUp(req, res) {
 
 		return res.sendStatus(201);
 	} catch (err) {
-		console.log(err);
 		return res.sendStatus(500);
 	}
 }
