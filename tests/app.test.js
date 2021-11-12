@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import app from "../src/app.js";
 import supertest from "supertest";
 import "../src/setup.js";
