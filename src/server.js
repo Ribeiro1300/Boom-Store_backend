@@ -1,7 +1,9 @@
 /* eslint-disable no-undef */
+import "./setup.js";
 import app from "./app.js";
 import "./setup.js";
 
 app.listen(process.env.PORT, () => {
-  console.log("Magic happening");
+	console.log("Server running on port " + (process.env.PORT));
+	console.log("database url " + process.env.DATABASE_URL);
 });
