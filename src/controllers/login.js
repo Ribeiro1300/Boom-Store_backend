@@ -16,17 +16,16 @@ async function login(req, res) {
 		const user = emailCheck.rows[0];
 		if (!bcrypt.compareSync(password, user.password)) return res.sendStatus(401);
 
-		let token;
+		const token = uuid();
 
 		const session = await connection.query("SELECT * FROM sessions WHERE userid = $1", [user.id]);
+
 		if (session.rows.length === 0) {
-			token = uuid();
-			await connection.query(`INSERT INTO sessions (userid,token) VALUES ($1,$2)`, [
+			await connection.query(`INSERT INTO sessions (userId,token) VALUES ($1,$2)`, [
 				user.id,
 				token,
 			]);
 		} else {
-			token = uuid();
 			await connection.query("UPDATE sessions SET token = $1 WHERE userid = $2", [token, user.id]);
 		}
 		return res.send({ token }).status(200);
