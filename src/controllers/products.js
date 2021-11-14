@@ -1,7 +1,8 @@
-import { produtos } from "../database/Data.js";
+import connection from "../database/database.js";
 
 async function getProducts(req, res) {
-  res.status(201).send(produtos);
+  const result = await connection.query("SELECT * FROM product;");
+  res.status(201).send(result.rows);
 }
 
 export { getProducts };

@@ -9,10 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.get("/products",getProducts)
-app.get("/", (req, res) => {
-	return res.sendStatus(200);
-});
+app.get("/products", getProducts);
 
 app.post("/login", login);
 
