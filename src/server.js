@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import "./setup.js";
 import app from "./app.js";
 
