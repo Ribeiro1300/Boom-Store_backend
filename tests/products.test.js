@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
+import "../src/setup.js";
 import app from "../src/app.js";
 import supertest from "supertest";
 import connection from "../src/database/database.js";
-import "../src/setup.js";
 
 describe("GET /products", () => {
   it("returns status 201 for valid request", async () => {
@@ -19,5 +19,5 @@ describe("GET /singleProduct/2", () => {
 });
 
 afterAll(() => {
-  connection.end();
+	connection.end();
 });
