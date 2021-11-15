@@ -6,6 +6,11 @@
   "directories": {
     "test": "tests"
   },
+  
+    "engines": {
+      "node": "v14.x"
+    }
+  ,
   "dependencies": {
     "abab": "^2.0.5",
     "abbrev": "^1.1.1",
