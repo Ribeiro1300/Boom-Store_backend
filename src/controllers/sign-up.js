@@ -5,7 +5,6 @@ import { singupSchema } from "../schemas.js";
 async function signUp(req, res) {
 	const validation = singupSchema.validate(req.body);
 	if (validation.error) {
-		console.log(req.body);
 		return res.sendStatus(400);
 	}
 
@@ -18,10 +17,10 @@ async function signUp(req, res) {
 
 		const duplicateCpfCheck = await connection.query("SELECT * FROM users WHERE cpf = $1;", [cpf]);
 
-		if (duplicateEmailCheck.rows.length !== 0 || duplicateCpfCheck.rows.length !== 0)
+		if (duplicateEmailCheck.rows.length !== 0 || duplicateCpfCheck.rows.length !== 0) {
 			return res.sendStatus(409);
+		}
 		const passwordHash = bcrypt.hashSync(password, 10);
-		console.log(passwordHash);
 
 		await connection.query(
 			`INSERT INTO users (name,email,address,cpf,password)
