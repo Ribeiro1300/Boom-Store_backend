@@ -11,8 +11,6 @@ describe("POST /signup", () => {
 		await connection.query("DELETE FROM sessions;");
 	});
 
-	beforeEach(async () => {});
-
 	afterAll(() => {
 		connection.end();
 	});
@@ -27,7 +25,7 @@ describe("POST /signup", () => {
 			name: user?.name || "fernando da silva teste",
 			email: user?.email || "fernando@email.com",
 			address: user?.address || "rua do teste 35",
-			cpf: user?.cpf || "111111111111",
+			cpf: user?.cpf || "11111111111",
 			password: user?.password || "123456",
 		};
 	}
@@ -42,6 +40,7 @@ describe("POST /signup", () => {
 		const body = generateSignUpBody();
 
 		const result = await agent.post("/signup").send(body);
+
 		const status = result.status;
 		expect(status).toEqual(201);
 	});
