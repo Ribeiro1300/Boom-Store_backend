@@ -7,17 +7,19 @@ const agent = supertest(app);
 
 describe("POST /signup", () => {
 	beforeAll(async () => {
-		await connection.query("DELETE FROM users;");
 		await connection.query("DELETE FROM sessions;");
+		await connection.query("DELETE FROM users;");
 	});
 
-	afterAll(() => {
+	afterAll(async () => {
+		await connection.query("DELETE FROM sessions;");
+		await connection.query("DELETE FROM users;");
 		connection.end();
 	});
 
 	afterEach(async () => {
-		await connection.query("DELETE FROM users;");
 		await connection.query("DELETE FROM sessions;");
+		await connection.query("DELETE FROM users;");
 	});
 
 	function generateSignUpBody(user) {
@@ -38,7 +40,6 @@ describe("POST /signup", () => {
 
 	it("returns 201 for valid params", async () => {
 		const body = generateSignUpBody();
-
 		const result = await agent.post("/signup").send(body);
 
 		const status = result.status;

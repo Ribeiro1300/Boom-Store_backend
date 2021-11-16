@@ -8,19 +8,17 @@ const agent = supertest(app);
 
 describe("POST /login", () => {
 	beforeAll(async () => {
-		await connection.query("DELETE FROM users;");
 		await connection.query("DELETE FROM sessions;");
+		await connection.query("DELETE FROM users;");
 	});
 
 	afterAll(() => {
 		connection.end();
 	});
 
-	beforeEach(async () => {});
-
 	afterEach(async () => {
-		await connection.query("DELETE FROM users;");
 		await connection.query("DELETE FROM sessions;");
+		await connection.query("DELETE FROM users;");
 	});
 
 	function generateLoginBody(user) {
@@ -31,7 +29,7 @@ describe("POST /login", () => {
 	}
 
 	it("returns 200 for valid params", async () => {
-		await createUser();
+		await createUser({ cpf: "12345678912" });
 		const body = generateLoginBody({ email: "test@email.com", password: "123456" });
 		const result = await agent.post("/login").send(body);
 		const status = result.status;
@@ -39,7 +37,7 @@ describe("POST /login", () => {
 	});
 
 	it("returns 401 for wrong (or nonexistent) email", async () => {
-		await createUser();
+		await createUser({ cpf: "13245678912" });
 		const body = generateLoginBody({ email: "wrong_email@email.com", password: "123456" });
 		const result = await agent.post("/login").send(body);
 		const status = result.status;
