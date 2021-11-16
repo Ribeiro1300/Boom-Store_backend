@@ -75,10 +75,10 @@ async function addProductToCard(req, res) {
 		} else {
 			cartId = cartCheck.rows[0].id;
 			const duplicateProductCheck = await connection.query(
-				`SELECT * FROM cart_products AS cp WHERE cp."cartId" = $1 AND cp."userId" = $2;`,
-				[cartId, userId]
+				`SELECT * FROM cart_products AS cp WHERE cp."cartId" = $1 AND cp."productId" = $2;`,
+				[cartId, productId]
 			);
-			console.log(duplicateProductCheck.rows);
+			return res.sendStatus(409);
 		}
 
 		await connection.query(`INSERT INTO cart_products ("cartId","productId") VALUES ($1,$2);`, [
