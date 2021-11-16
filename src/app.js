@@ -3,7 +3,7 @@ import cors from "cors";
 import { getProducts, getSingleProduct } from "./controllers/products.js";
 import signUp from "./controllers/sign-up.js";
 import login from "./controllers/login.js";
-import { addProductToCard, getCartProducts } from "./controllers/cart.js";
+import { addProductToCard, getCartProducts, postCheckout } from "./controllers/cart.js";
 import { auth } from "./middlewares/auth.js";
 
 const app = express();
@@ -22,5 +22,7 @@ app.post("/signup", signUp);
 app.post("/cart", auth, addProductToCard);
 
 app.get("/cart", auth, getCartProducts);
+
+app.delete("/cart", auth, postCheckout);
 
 export default app;
