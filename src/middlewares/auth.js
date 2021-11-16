@@ -5,7 +5,7 @@ async function auth(req, res, next) {
 	const token = authorization?.split("Bearer ")[1];
 
 	try {
-		const session = await connection.query(`SELECT * FROM sessions WHERE Token = $1`, [token]);
+		const session = await connection.query(`SELECT * FROM sessions WHERE token = $1`, [token]);
 
 		if (session.rows.length === 0) {
 			return res.sendStatus(401);
