@@ -78,7 +78,7 @@ async function addProductToCard(req, res) {
 				`SELECT * FROM cart_products AS cp WHERE cp."cartId" = $1 AND cp."productId" = $2;`,
 				[cartId, productId]
 			);
-			return res.sendStatus(409);
+			if (duplicateProductCheck.rows.length !== 0) return res.sendStatus(409);
 		}
 
 		await connection.query(`INSERT INTO cart_products ("cartId","productId") VALUES ($1,$2);`, [
