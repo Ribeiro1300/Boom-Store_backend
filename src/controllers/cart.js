@@ -95,4 +95,24 @@ async function addProductToCard(req, res) {
 	}
 }
 
-export { addProductToCard, getCartProducts };
+async function postCheckout(req, res) {
+	try {
+		const authorization = req.headers["authorization"];
+		const token = authorization?.split("Bearer ")[1];
+		const userId = await queryUserIdByToken(token);
+		if (userId.rowCount === 0) return res.sendStatus(404);
+
+		const cartCheck = await connection.query(`SELECT * FROM carts WHERE "userId" = $1;`, [userId]);
+
+		const cartId = cartCheck.rows[0].id;
+
+		await connection.query(`DELETE from cart_products AS cp WHERE cp."cartId" = $1`, [cartId]);
+		await connection.query(`DELETE from carts WHERE "userId" = $1`, [userId]);
+		return res.sendStatus(200);
+	} catch (err) {
+		console.log(err);
+		return res.sendStatus(500);
+	}
+}
+
+export { postCheckout, addProductToCard, getCartProducts };
