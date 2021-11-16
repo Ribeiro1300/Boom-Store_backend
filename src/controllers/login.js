@@ -18,7 +18,7 @@ async function login(req, res) {
 		if (!bcrypt.compareSync(password, user.password)) return res.sendStatus(401);
 
 		const token = uuid();
-		const session = await connection.query("SELECT * FROM sessions WHERE 'userId' = $1;", [
+		const session = await connection.query(`SELECT * FROM sessions WHERE "userId" = $1;`, [
 			user.id,
 		]);
 
@@ -28,7 +28,7 @@ async function login(req, res) {
 				token,
 			]);
 		} else {
-			await connection.query("UPDATE sessions SET token = $1 WHERE 'userId' = $2;", [
+			await connection.query(`UPDATE sessions SET token = $1 WHERE "userId" = $2;`, [
 				token,
 				user.id,
 			]);
